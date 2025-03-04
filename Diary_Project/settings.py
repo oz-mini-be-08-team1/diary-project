@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'diary.apps.DiaryConfig',
-
+    'diaries.apps.DiaryConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +79,7 @@ load_dotenv()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv("diary"),        # DB 이름
+        'NAME': os.getenv("diaries"),        # DB 이름
         'USER': os.getenv("admin"),        # DB 사용자
         'PASSWORD': os.getenv("admin"), # DB 비밀번호
         'HOST': os.getenv("DB_HOST", "localhost"),  # DB 호스트 (기본값: localhost)
