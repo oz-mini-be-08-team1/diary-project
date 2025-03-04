@@ -25,7 +25,7 @@ class UserMager (BaseUserManager):
 # 커스텀 유저 모델
 class User(AbstractUser):
     email = models.EmailField(unique=True) # 로그인 시 사용
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=50)
     nickname = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=20)
