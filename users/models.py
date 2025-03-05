@@ -35,6 +35,17 @@ class User(AbstractUser):
     is_superuser = models.BooleanField(default=False) # 최고 관리자 여부
     is_staff = models.BooleanField(default=False) # 관리자스탭 여부
 
+    # 장고 기본 유저모델과 충돌 방지
+    groups = models.ManyToManyField(
+        "auth.Group",
+        related_name="custom_user_groups",
+        blank=True,
+    )
+    user_permissions = models.ManyToManyField(
+        "auth.Permission",
+        related_name="custom_user_permissions",
+        blank=True,
+    )
     objects = UserManager()
 
     USERNAME_FIELD = 'email' # 로그인에 사용할 필드
