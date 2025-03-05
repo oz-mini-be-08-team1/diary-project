@@ -1,11 +1,11 @@
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
 
 # 유저 관리자 매니저
-class UserMager (BaseUserManager):
+class UserManager (BaseUserManager):
     # 일반 사용자 생성 함수
     def create_user(self, email, name, password=None, **extra_fields):
         if not email:
@@ -25,10 +25,10 @@ class UserMager (BaseUserManager):
 # 커스텀 유저 모델
 class User(AbstractUser):
     email = models.EmailField(unique=True) # 로그인 시 사용
-    name = models.CharField(max_length=50)
-    nickname = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
-    phone_number = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
+    nickname = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=128)
     last_login = models.DateTimeField(auto_now=True)
 
     is_active = models.BooleanField(default=True) # 활성화 여부
@@ -53,3 +53,4 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
