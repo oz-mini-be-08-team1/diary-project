@@ -33,7 +33,7 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=128)
     last_login = models.DateTimeField(auto_now=True)
 
-    is_active = models.BooleanField(default=True)  # 활성화 여부
+    is_active = models.BooleanField(default=False)  # 활성화 여부 -> 이메일인증 후  True
     is_superuser = models.BooleanField(default=False)  # 최고 관리자 여부
     is_staff = models.BooleanField(default=False)  # 관리자스탭 여부
 
