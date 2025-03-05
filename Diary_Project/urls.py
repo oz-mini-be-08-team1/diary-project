@@ -23,7 +23,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
-from users.views import DeleteUserView, LogoutView, ProfileView
+from users.views import DeleteUserView, LoginView, LogoutView, ProfileView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -32,6 +32,7 @@ urlpatterns = [
         "swagger/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"
     ),
     path("redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
+    path("login/", LoginView.as_view(), name="login"), # 로그인
     path("logout/", LogoutView.as_view(), name="logout"),  # 로그아웃 뷰
     path("profile/", ProfileView.as_view(), name="profile"),  # 프로필 조회/수정 뷰
     path("delete/", DeleteUserView.as_view(), name="delete-user"),  # 유저 삭제 뷰
