@@ -11,7 +11,7 @@ class UserAdmin(UserAdmin):
     list_display = ('name', 'nickname','email', 'last_login', )
     list_filter = ('is_staff','is_active')
     search_fields = ('email','nickname','phone_number')
-    exclude = ('password',)
+
 
     fieldsets = (
         ("User Info",{'fields':('nickname','email','phone_number')}), # 사용자의 기본정보 표시
