@@ -4,13 +4,14 @@ from django.db import models
 
 # Create your models here.
 
+
 # 유저 관리자 매니저
-class UserManger (BaseUserManager):
+class UserManger(BaseUserManager):
     # 일반 사용자 생성 함수
     def create_user(self, email, name, password=None, **extra_fields):
         if not email:
-            raise ValueError('이메일을 입력해주세요.')
-        email = self.normalize_email(email) # 소문자 변환
+            raise ValueError("이메일을 입력해주세요.")
+        email = self.normalize_email(email)  # 소문자 변환
         user = self.model(email=email, name=name, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -18,27 +19,28 @@ class UserManger (BaseUserManager):
 
     # 관리자 (superuser) 생성 함수
     def create_superuser(self, email, name, password, **extra_fields):
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_staff", True)
         return self.create_user(email, name, password, **extra_fields)
+
 
 # 커스텀 유저 모델
 class User(AbstractUser):
-    email = models.EmailField(unique=True) # 로그인 시 사용
+    email = models.EmailField(unique=True)  # 로그인 시 사용
     name = models.CharField(max_length=50)
     nickname = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=20)
     last_login = models.DateTimeField(auto_now=True)
 
-    is_active = models.BooleanField(default=True) # 활성화 여부
-    is_superuser = models.BooleanField(default=False) # 최고 관리자 여부
-    is_staff = models.BooleanField(default=False) # 관리자스탭 여부
+    is_active = models.BooleanField(default=True)  # 활성화 여부
+    is_superuser = models.BooleanField(default=False)  # 최고 관리자 여부
+    is_staff = models.BooleanField(default=False)  # 관리자스탭 여부
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email' # 로그인에 사용할 필드
-    REQUIRED_FIELDS = ['nickname','name'] # 슈퍼유저 생성시 필수 필드
+    USERNAME_FIELD = "email"  # 로그인에 사용할 필드
+    REQUIRED_FIELDS = ["nickname", "name"]  # 슈퍼유저 생성시 필수 필드
 
     def __str__(self):
         return self.email

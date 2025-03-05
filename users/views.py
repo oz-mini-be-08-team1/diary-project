@@ -1,12 +1,20 @@
-from rest_framework.views import APIView  # APIView 기반으로 REST API 만들기
-from rest_framework.response import Response  # JSON 응답을 반환하기 위해 필요
-from rest_framework.permissions import IsAuthenticated  # 로그인한 사용자만 접근 가능하도록 설정
-from rest_framework_simplejwt.tokens import RefreshToken  # JWT 토큰 관련 기능 가져오기
-from rest_framework import generics, permissions  # Django REST Framework의 Generic API View 사용
 from django.contrib.auth.models import User  # User 모델 가져오기
+from rest_framework import (
+    generics,
+    permissions,
+)  # Django REST Framework의 Generic API View 사용
+from rest_framework.permissions import (
+    IsAuthenticated,
+)  # 로그인한 사용자만 접근 가능하도록 설정
+from rest_framework.response import Response  # JSON 응답을 반환하기 위해 필요
+from rest_framework.views import APIView  # APIView 기반으로 REST API 만들기
+from rest_framework_simplejwt.tokens import RefreshToken  # JWT 토큰 관련 기능 가져오기
+
 
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]  # 인증된 사용자(로그인한 사람)만 이 API 사용 가능
+    permission_classes = [
+        IsAuthenticated
+    ]  # 인증된 사용자(로그인한 사람)만 이 API 사용 가능
 
     def post(self, request):
 
