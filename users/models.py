@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 
 # 유저 관리자 매니저
-class UserMager (BaseUserManager):
+class UserManger (BaseUserManager):
     # 일반 사용자 생성 함수
     def create_user(self, email, name, password=None, **extra_fields):
         if not email:

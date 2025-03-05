@@ -7,12 +7,14 @@ readme = "README.md"
 packages = [{include = "djangoproject"}]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.13"  # Python 3.13은 현재 지원되지 않음
+python = ">=3.10,<3.13"  # Python 3.13은 현재 지원되지 않음
 django = "^5.1.6"
 psycopg = "^3.2.5"
 python-dotenv = "^1.0.1"
+djangorestframework = "^3.15.2"
+djangorestframework-simplejwt = "^5.5.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
 isort = "^6.0.1"
 
