@@ -1,20 +1,20 @@
-[project]
+[tool.poetry]
 name = "djangoproject"
 version = "0.1.0"
 description = ""
-authors = [
-    {name = "shinezeee",email = "h46998600@gmail.com"}
-]
+authors = ["shinezeee <h46998600@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = [
-    "django (>=5.1.6,<6.0.0)",
-    "psycopg (>=3.2.5,<4.0.0)",
-    "python-dotenv (>=1.0.1,<2.0.0)",
-    "black (>=25.1.0,<26.0.0)",
-    "isort (>=6.0.1,<7.0.0)"
-]
+packages = [{include = "djangoproject"}]
 
+[tool.poetry.dependencies]
+python = ">=3.8,<3.13"  # Python 3.13은 현재 지원되지 않음
+django = "^5.1.6"
+psycopg = "^3.2.5"
+python-dotenv = "^1.0.1"
+
+[tool.poetry.dev-dependencies]
+black = "^25.1.0"
+isort = "^6.0.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
