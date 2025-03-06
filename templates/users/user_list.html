@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}사용자 목록{% endblock %}
+
+{% block content %}
+    <h2>📋 사용자 목록</h2>
+    {% for user in users %}
+        <div>
+            <p>이름: <a href="{% url 'profile' user.nickname %}">{{ user.name }}</a></p>
+            <p>이메일: {{ user.email }}</p>
+        </div>
+    {% empty %}
+        <p>등록된 사용자가 없습니다.</p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}로그인{% endblock %}
+
+{% block content %}
+<h2>🔑 로그인</h2>
+<form method="get" action="{% url 'login_page' %}">
+    {% csrf_token %}
+    <label for="email">이메일:</label>
+    <input type="email" name="email" required>
+
+    <label for="password">비밀번호:</label>
+    <input type="password" name="password" required>
+
+    <button type="submit">로그인</button>
+</form>
+<a href="{% url 'signup' %}">회원가입</a>
+{% endblock %}

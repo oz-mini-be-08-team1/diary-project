@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}일기 삭제{% endblock %}
+
+{% block content %}
+<h2>🗑️ 일기 삭제</h2>
+<p>정말 이 일기를 삭제하시겠습니까?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">삭제</button>
+</form>
+<a href="{% url 'diary_list' %}">취소</a>
+{% endblock %}

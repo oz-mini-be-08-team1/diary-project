@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ diary.title }}{% endblock %}
+
+{% block content %}
+    <h2>{{ diary.title }}</h2>
+    <p><strong>작성일:</strong> {{ diary.created_at }}</p>
+    <p><strong>내용:</strong> {{ diary.detail }}</p>
+
+    <a href="{% url 'diary_update' diary.pk %}">✏️ 수정</a>
+    <a href="{% url 'diary_delete' diary.pk %}">🗑️ 삭제</a>
+    <a href="{% url 'diary_list' %}">🔙 목록으로</a>
+{% endblock %}
