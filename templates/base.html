@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My Diary{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'diary_list' %}">📖 My Diary</a></h1>
+    </header>
+
+    <main>
+        {% block content %}
+
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>© 2025 My Diary</p>
+    </footer>
+</body>
+</html>

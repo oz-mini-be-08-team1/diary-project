@@ -153,3 +153,4 @@ AUTH_USER_MODEL = "users.User"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 DEFAULT_FROM_EMAIL = "admin@admin.com"
+LOGOUT_REDIRECT_URL = "login"

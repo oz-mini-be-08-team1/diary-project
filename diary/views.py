@@ -1,5 +1,6 @@
 from django.db.models import Q
 from django.utils.dateparse import parse_date
+from django.views.generic import TemplateView
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
@@ -73,4 +74,6 @@ class DiaryListView(generics.ListAPIView):
         return queryset
 
 
+class HomeView(TemplateView):
+    template_name = "home.html"
 

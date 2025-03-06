@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.name }}의 프로필{% endblock %}
+
+{% block content %}
+    <h2>👤 {{ user.name }}의 프로필</h2>
+    <p>닉네임: {{ user.nickname }}</p>
+    <p>이메일: {{ user.email }}</p>
+    <p>전화번호: {{ user.phone_number }}</p>
+    <p>가입 날짜: {{ user.date_joined }}</p>
+
+    <a href="{% url 'user_delete' user.nickname %}">삭제하기</a>
+{% endblock %}

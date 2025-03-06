@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}일기 작성{% endblock %}
+
+{% block content %}
+<h2>{% if diary %}✏️ 일기 수정{% else %}📝 새 일기 작성{% endif %}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">저장</button>
+</form>
+<a href="{% url 'diary_list' %}">목록으로</a>
+{% endblock %}

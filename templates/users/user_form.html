@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ form_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ form_title }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label for="email">📧 이메일:</label>
+    <input type="email" name="email" value="{{ form.email.value|default_if_none:'' }}" required>
+
+    <label for="nickname">🏷️ 닉네임:</label>
+    <input type="text" name="nickname" value="{{ form.nickname.value|default_if_none:'' }}" required>
+
+    <label for="phone_number">📞 전화번호:</label>
+    <input type="text" name="phone_number" value="{{ form.phone_number.value|default_if_none:'' }}" required>
+
+    {% if form.password %}
+        <label for="password">🔑 비밀번호:</label>
+        <input type="password" name="password" required>
+    {% endif %}
+
+    <button type="submit">{{ submit_text }}</button>
+</form>
+
+<a href="{% url 'login' %}">🔙 돌아가기</a>
+
+{% endblock %}

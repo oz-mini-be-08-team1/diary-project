@@ -18,12 +18,14 @@ Including another URLconf
 from django.contrib import admin
 from django.shortcuts import render
 from django.urls import path, include
+from django.views.generic import TemplateView
 from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
                                    SpectacularSwaggerView)
 
-
+from diary.views import HomeView
 
 urlpatterns = [
+    path("",HomeView.as_view(),name="home"),
     path("admin/", admin.site.urls),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
