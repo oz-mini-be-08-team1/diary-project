@@ -148,3 +148,8 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = "users.User"
+
+# 개발 환경 - 실제 이메일을 보내지 않고 터미널에 출력
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+DEFAULT_FROM_EMAIL = "admin@admin.com"
