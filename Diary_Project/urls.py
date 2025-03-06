@@ -33,4 +33,5 @@ urlpatterns = [
 
     path("email-verification-sent/", lambda request: render (request, "email_send.html"), name="email_sent"),
     path("users/",include("users.urls")),
+    path("diary/",include("diary.urls")),
 ]
