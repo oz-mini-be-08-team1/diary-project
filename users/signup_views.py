@@ -25,7 +25,7 @@ class SignUpView(CreateView):
         return redirect("email_verification_sent")
 
 
-class VerityEmailView(APIView):
+class VerifyEmailView(APIView):
    def get(self, request):
        email = request.GET.get('email')
        token = request.GET.get('token')
