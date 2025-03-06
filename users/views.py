@@ -1,7 +1,9 @@
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User  # User 모델 가져오기
 from rest_framework import (
     generics,
     permissions,
+    status
 )  # Django REST Framework의 Generic API View 사용
 from rest_framework.permissions import (
     IsAuthenticated,
@@ -10,8 +12,28 @@ from rest_framework.response import Response  # JSON 응답을 반환하기 위�
 from rest_framework.views import APIView  # APIView 기반으로 REST API 만들기
 from rest_framework_simplejwt.tokens import RefreshToken  # JWT 토큰 관련 기능 가져오기
 
+# 로그인
+class LoginView(generics.GenericAPIView):
+    def post(self, request):
+        # 클라이언트에서 보내온 사용자 이름과 비밀번호 추출
+        username = request.data.get('username')
+        password = request.data.get('password')
 
-class LogoutView(APIView):
+        #username과 password를 활용해 사용자인증
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            #사용자 인증 성공시 리프레시,엑세스토큰발급
+            refresh = RefreshToken.for_user(user)
+            access = refresh.access_token
+
+            return Response({
+                "refresh_token": str(refresh),
+                "access_token": str(access)
+            }, status = status.HTTP_200_OK)
+        #인증 실패, 에러
+        return Response({"error": "Invalid credentials"}, status = status.HTTP_400_BAD_REQUEST)
+
+class LogoutView(generics.GenericAPIView):
     permission_classes = [
         IsAuthenticated
     ]  # 인증된 사용자(로그인한 사람)만 이 API 사용 가능
