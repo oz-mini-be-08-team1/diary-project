@@ -14,8 +14,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from collections import UserList
 
 from django.contrib import admin
+from django.shortcuts import render
 from django.urls import path
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -23,7 +25,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
-from users.views import DeleteUserView, LoginView, LogoutView, ProfileView
+from users.views import DeleteUserView, LoginView, LogoutView, ProfileView, SignUpView, VerifyEmailView, UserListView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -34,6 +36,11 @@ urlpatterns = [
     path("redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
     path("login/", LoginView.as_view(), name="login"), # 로그인
     path("logout/", LogoutView.as_view(), name="logout"),  # 로그아웃 뷰
-    path("profile/", ProfileView.as_view(), name="profile"),  # 프로필 조회/수정 뷰
-    path("delete/", DeleteUserView.as_view(), name="delete-user"),  # 유저 삭제 뷰
+    path("profile/<str:nickname>/", ProfileView.as_view(), name="profile_name"),  # 프로필 조회/수정 뷰
+    path("profile/<str:nickname>/delete/", DeleteUserView.as_view(), name="delete-user"),  # 유저 삭제 뷰
+
+    path ("signup/", SignUpView.as_view(), name="signup"),
+    path("verify-email/", VerifyEmailView.as_view(), name="verify_email"),  # 이메일 인증 API
+    path("email-verification-sent/", lambda request: render (request, "email_send.html"), name="email_sent"),
+    path("users/", UserListView.as_view(), name="user_list"),
 ]
