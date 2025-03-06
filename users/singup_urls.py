@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import path
 
-from users.signup_views import SignUpView, VerifyEmailView
+from users.views import SignUpView, VerifyEmailView
 
 urlpatterns = [
     path ("signup/", SignUpView.as_view(), name="signup"),
