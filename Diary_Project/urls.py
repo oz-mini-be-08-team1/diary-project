@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.shortcuts import render
-from django.urls import path
+from django.urls import path, include
 from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
                                    SpectacularSwaggerView)
 
@@ -32,4 +32,5 @@ urlpatterns = [
     path("redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
 
     path("email-verification-sent/", lambda request: render (request, "email_send.html"), name="email_sent"),
+    path("users/",include("users.urls")),
 ]
