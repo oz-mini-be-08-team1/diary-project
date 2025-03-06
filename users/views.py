@@ -1,14 +1,15 @@
 from django.contrib.auth import authenticate
-from rest_framework import generics,permissions,status # Django REST Framework의 Generic API View 사용
-from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken  # JWT 토큰 관련 기능 가져오기
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.tokens import default_token_generator
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from rest_framework import (  # Django REST Framework의 Generic API View 사용
+    generics, permissions, status)
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken  # JWT 토큰 관련 기능 가져오기
 
 from users.email_utils import send_verification_email
 from users.models import User
@@ -19,7 +20,7 @@ from users.serializers import UserSerializer
 class SignUpView(CreateView):
     model = User
     form_class = UserCreationForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy("login")
 
     def form_valid(self, form):
         user = form.save()
@@ -32,37 +33,41 @@ class SignUpView(CreateView):
 
 
 class VerifyEmailView(APIView):
-   def get(self, request):
-       email = request.GET.get('email')
-       token = request.GET.get('token')
-       user = get_object_or_404(User, email=email)
+    def get(self, request):
+        email = request.GET.get("email")
+        token = request.GET.get("token")
+        user = get_object_or_404(User, email=email)
 
-       if default_token_generator.check_token(user, token):
-           user.is_active = True  # ✅ 이메일 인증 후 계정 활성화
-           user.save()
-           return Response({"message": "이메일 인증이 완료되었습니다."}, status=200)
-       return Response({"message": "유효하지 않은 토큰입니다."}, status=400)
+        if default_token_generator.check_token(user, token):
+            user.is_active = True  # ✅ 이메일 인증 후 계정 활성화
+            user.save()
+            return Response({"message": "이메일 인증이 완료되었습니다."}, status=200)
+        return Response({"message": "유효하지 않은 토큰입니다."}, status=400)
+
 
 # 로그인
 class LoginView(generics.GenericAPIView):
     def post(self, request):
         # 클라이언트에서 보내온 사용자 이름과 비밀번호 추출
-        username = request.data.get('username')
-        password = request.data.get('password')
+        username = request.data.get("username")
+        password = request.data.get("password")
 
-        #username과 password를 활용해 사용자인증
+        # username과 password를 활용해 사용자인증
         user = authenticate(username=username, password=password)
         if user is not None:
-            #사용자 인증 성공시 리프레시,엑세스토큰발급
+            # 사용자 인증 성공시 리프레시,엑세스토큰발급
             refresh = RefreshToken.for_user(user)
             access = refresh.access_token
 
-            return Response({
-                "refresh_token": str(refresh),
-                "access_token": str(access)
-            }, status = status.HTTP_200_OK)
-        #인증 실패, 에러
-        return Response({"error": "Invalid credentials"}, status = status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"refresh_token": str(refresh), "access_token": str(access)},
+                status=status.HTTP_200_OK,
+            )
+        # 인증 실패, 에러
+        return Response(
+            {"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
 
 class LogoutView(generics.GenericAPIView):
     permission_classes = [
@@ -94,7 +99,8 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
     queryset = User.objects.all()  # User 모델을 대상으로 데이터 가져옴
     permission_classes = [permissions.IsAuthenticated]  # 로그인한 사용자만 접근 가능
-    lookup_field = 'nickname'
+    lookup_field = "nickname"
+
     def get_object(self):
         return self.request.user
 
@@ -103,15 +109,18 @@ class DeleteUserView(generics.DestroyAPIView):
 
     queryset = User.objects.all()  # User 모델을 대상으로 데이터 가져옴
     permission_classes = [permissions.IsAuthenticated]  # 로그인한 사용자만 접근 가능
-    lookup_field = 'nickname'
+    lookup_field = "nickname"
 
     def get_object(self):
-        nickname = self.kwargs.get('nickname') # nickname 가져오기
+        nickname = self.kwargs.get("nickname")  # nickname 가져오기
 
         if nickname:
             user = User.objects.get(nickname=nickname)
-            if not user: # 없을시 에러
-                raise Response({"error": "해당 닉네임을 가진 사용자가 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+            if not user:  # 없을시 에러
+                raise Response(
+                    {"error": "해당 닉네임을 가진 사용자가 없습니다."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
             return user
         return self.request.user
 
@@ -119,7 +128,10 @@ class DeleteUserView(generics.DestroyAPIView):
         user = self.get_object()
         user.delete()
 
-        return Response({"message": f"'{user.nickname}' : Deleted successfully."}, status=200)
+        return Response(
+            {"message": f"'{user.nickname}' : Deleted successfully."}, status=200
+        )
+
 
 class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
