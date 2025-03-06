@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User  # User 모델 가져오기
 from rest_framework import generics,permissions,status # Django REST Framework의 Generic API View 사용
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken  # JWT 토큰 관련 기능 가져오기
@@ -13,6 +12,8 @@ from rest_framework.views import APIView
 
 from users.email_utils import send_verification_email
 from users.models import User
+from users.serializers import UserSerializer
+
 
 # 회원가입
 class SignUpView(CreateView):
@@ -93,7 +94,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
     queryset = User.objects.all()  # User 모델을 대상으로 데이터 가져옴
     permission_classes = [permissions.IsAuthenticated]  # 로그인한 사용자만 접근 가능
-
+    lookup_field = 'nickname'
     def get_object(self):
         return self.request.user
 
@@ -102,12 +103,24 @@ class DeleteUserView(generics.DestroyAPIView):
 
     queryset = User.objects.all()  # User 모델을 대상으로 데이터 가져옴
     permission_classes = [permissions.IsAuthenticated]  # 로그인한 사용자만 접근 가능
+    lookup_field = 'nickname'
 
     def get_object(self):
+        nickname = self.kwargs.get('nickname') # nickname 가져오기
+
+        if nickname:
+            user = User.objects.get(nickname=nickname)
+            if not user: # 없을시 에러
+                raise Response({"error": "해당 닉네임을 가진 사용자가 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return user
         return self.request.user
 
     def delete(self, request, *args, **kwargs):
-        user = self.get_object()  # 현재 로그인한 사용자 가져오기
-        user.delete()  # 유저 삭제
+        user = self.get_object()
+        user.delete()
 
-        return Response({"message": "Deleted successfully"}, status=200)
+        return Response({"message": f"'{user.nickname}' : Deleted successfully."}, status=200)
+
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

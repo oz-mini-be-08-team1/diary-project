@@ -9,6 +9,7 @@ User = get_user_model()
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
+
     list_display = (
         "name",
         "nickname",
@@ -17,7 +18,7 @@ class UserAdmin(UserAdmin):
     )
     list_filter = ("is_staff", "is_active")
     search_fields = ("email", "nickname", "phone_number")
-
+    ordering = ("email",)
     fieldsets = (
         (
             "User Info",
@@ -32,9 +33,10 @@ class UserAdmin(UserAdmin):
     readonly_fields = ("last_login", "is_superuser")  # 읽기 전용 필드
 
     add_fieldsets = (
-        "User Info",
-        {
-            "classes": ("wide",),
-            "fields": ("username", "usable_password", "password1", "password2"),
+        (
+            "New user",
+            {"classes": ("wide",),
+            "fields": ("email", "name","nickname", "phone_number","password1", "password2","is_staff", "is_active", "is_superuser"),
         },
+        ),
     )

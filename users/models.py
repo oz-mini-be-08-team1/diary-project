@@ -26,6 +26,7 @@ class UserManager(BaseUserManager):
 
 # 커스텀 유저 모델
 class User(AbstractUser):
+    username = None
     email = models.EmailField(unique=True)  # 로그인 시 사용
     name = models.CharField(max_length=100)
     nickname = models.CharField(max_length=100)
@@ -55,3 +56,4 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
