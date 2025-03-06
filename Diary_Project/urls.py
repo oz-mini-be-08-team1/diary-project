@@ -16,6 +16,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
+from django.shortcuts import render
 from django.urls import path
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -23,7 +24,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
-from users.views import DeleteUserView, LoginView, LogoutView, ProfileView
+from users.views import DeleteUserView, LoginView, LogoutView, ProfileView, SignUpView, VerifyEmailView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -36,4 +37,8 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),  # 로그아웃 뷰
     path("profile/", ProfileView.as_view(), name="profile"),  # 프로필 조회/수정 뷰
     path("delete/", DeleteUserView.as_view(), name="delete-user"),  # 유저 삭제 뷰
+
+    path ("signup/", SignUpView.as_view(), name="signup"),
+    path("verify-email/", VerifyEmailView.as_view(), name="verify_email"),  # 이메일 인증 API
+    path("email-verification-sent/", lambda request: render (request, "email_send.html"), name="email_sent"),
 ]
